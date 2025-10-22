@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FocusTimer PWA</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#111827">
+  <link rel="icon" href="icons/icon-192.png">
+  <style>
+    :root{color-scheme:light dark}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;
+         margin:0;display:grid;place-items:center;height:100dvh;background:#0b1220;color:#e5e7eb}
+    .card{width:min(480px,90vw);padding:24px;border-radius:16px;background:#0f172a;
+          box-shadow:0 10px 30px rgba(0,0,0,.4);text-align:center}
+    h1{margin:0 0 12px;font-size:28px}
+    #time{font-weight:700;font-size:64px;margin:6px 0 12px}
+    .row{display:flex;gap:8px;justify-content:center;margin:8px 0}
+    button{padding:10px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:600}
+    button.primary{background:#2563eb;color:#fff}
+    button.ghost{background:#1f2937;color:#e5e7eb}
+    .small{opacity:.7;font-size:13px}
+    input{width:72px;padding:8px;border-radius:10px;border:1px solid #334155;background:#111827;color:#e5e7eb;text-align:center}
+    a{color:#93c5fd}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>FocusTimer</h1>
+    <div id="time">25:00</div>
+    <div class="row">
+      <button id="start" class="primary">Iniciar</button>
+      <button id="pause" class="ghost" disabled>Pausar</button>
+      <button id="reset" class="ghost">Reiniciar</button>
+    </div>
+    <div class="row small">
+      Foco (min): <input id="mins" type="number" min="1" max="120" value="25">
+    </div>
+    <p class="small">Instale no seu PC/Android: Menu ⋮ → <b>Instalar app</b>. Funciona offline.</p>
+  </div>
+<script>
+let timer=null, left=25*60, running=false;
+const T=document.getElementById('time'), M=document.getElementById('mins');
+function fmt(s){const m=String(Math.floor(s/60)).padStart(2,'0');const ss=String(s%60).padStart(2,'0');return m+':'+ss}
+function tick(){ if(left>0){ left--; T.textContent=fmt(left) } else { clearInterval(timer); running=false; document.getElementById('pause').disabled=true; document.getElementById('start').disabled=false; alert('Tempo!') } }
+document.getElementById('start').onclick=()=>{ if(!running){ running=true; timer=setInterval(tick,1000); document.getElementById('pause').disabled=false; document.getElementById('start').disabled=true; } };
+document.getElementById('pause').onclick=()=>{ if(running){ running=false; clearInterval(timer); document.getElementById('start').disabled=false; document.getElementById('pause').disabled=true; } };
+document.getElementById('reset').onclick=()=>{ running=false; clearInterval(timer); left=parseInt(M.value||25)*60; T.textContent=fmt(left); document.getElementById('start').disabled=false; document.getElementById('pause').disabled=true; };
+M.onchange=()=>{ if(!running){ left=parseInt(M.value||25)*60; T.textContent=fmt(left); } };
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js')); }
+</script>
+</body>
+</html>
