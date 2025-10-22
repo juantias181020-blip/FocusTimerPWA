@@ -1,0 +1,18 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "juantobias181020-blip.github",
+  "orientation": "any",
+  "scope": "/FocusTimerPWA/",
+  "short_name": "juantobias181020-blip.github",
+  "start_url": "/FocusTimerPWA/",
+  "theme_color": "#ffffff",
+  "display_override": [
+    "window-controls-overlay"
+  ],
+  "lang": "pt",
+  "categories": [
+    "productivity"
+  ]
+}
