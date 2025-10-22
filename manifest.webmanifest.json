@@ -9,7 +9,7 @@
   "display": "standalone",
   "display_override": ["window-controls-overlay"],
   "background_color": "#0b1421",
-  "theme_color": "#0b1421",
+  "theme_color": "#111827",
   "description": "App de foco e produtividade com temporizador Pomodoro. Funciona offline e pode ser instalado no PC ou celular.",
   "orientation": "any",
   "categories": ["productivity"],
